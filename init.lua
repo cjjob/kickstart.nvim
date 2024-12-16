@@ -4,17 +4,11 @@
 -- If you experience any errors while trying to install kickstart, run
 -- `:checkhealth` for more info.
 
-
-
-
 -- #### Vim Globals ####
 -- :help mapleader
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 vim.g.have_nerd_font = true
-
-
-
 
 -- #### Vim Options ####
 -- :help vim.opt
@@ -42,28 +36,26 @@ vim.opt.inccommand = 'split'
 vim.opt.cursorline = true -- Show which line your cursor is on.
 vim.opt.scrolloff = 10
 
-
-
-
 -- #### Basic Keymaps ####
 -- :help vim.keymap.set()
 -- :help hlsearch
 vim.keymap.set(
-  'n', '<Esc>', -- Clear highlights on search with <Esc> in normal mode.
-  '<cmd>nohlsearch<CR>')
+  'n',
+  '<Esc>', -- Clear highlights on search with <Esc> in normal mode.
+  '<cmd>nohlsearch<CR>'
+)
 vim.keymap.set(
-  'n', '<leader>q', -- Diagnostics.
-  vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' }
+  'n',
+  '<leader>q', -- Diagnostics.
+  vim.diagnostic.setloclist,
+  { desc = 'Open diagnostic [Q]uickfix list' }
 )
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit
 -- easier for people to discover. Otherwise, you normally need to press
 -- <C-\><C-n>, which is not what someone will guess without a bit more
 -- experience.
 -- NOTE: This won't work in all terminal emulators/tmux/etc.
-vim.keymap.set(
-  't', '<Esc><Esc>',
-  '<C-\\><C-n>', { desc = 'Exit terminal mode' }
-)
+vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 -- Move between windows with <leader> + (remapped) arrow keys.
 vim.keymap.set('n', '<leader><Left>', '<C-w>h', { desc = 'Move to left window' })
 vim.keymap.set('n', '<leader><Right>', '<C-w>l', { desc = 'Move to right window' })
@@ -72,9 +64,6 @@ vim.keymap.set('n', '<leader><Down>', '<C-w>j', { desc = 'Move to below window' 
 -- Use jl for 'big moves' (since I use caps+ijkl for cursor movement).
 vim.keymap.set('n', 'j', '<C-u>', { desc = 'Move half page up' })
 vim.keymap.set('n', 'l', '<C-d>', { desc = 'Move half page down' })
-
-
-
 
 -- #### Basic Autocommands ####
 -- :help lua-guide-autocommands
@@ -89,8 +78,9 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
--- [[ Install `lazy.nvim` plugin manager ]]
---    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
+-- #### Install `lazy.nvim` plugin manager ####
+-- :help lazy.nvim.txt`
+-- https://github.com/folke/lazy.nvim
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
   local lazyrepo = 'https://github.com/folke/lazy.nvim.git'
@@ -101,34 +91,12 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
 end ---@diagnostic disable-next-line: undefined-field
 vim.opt.rtp:prepend(lazypath)
 
--- [[ Configure and install plugins ]]
---
---  To check the current status of your plugins, run
---    :Lazy
---
---  You can press `?` in this menu for help. Use `:q` to close the window
---
---  To update plugins you can run
---    :Lazy update
---
--- NOTE: Here is where you install your plugins.
+-- #### Configure and install plugins ####
 require('lazy').setup({
-  -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
-  'tpope/vim-sleuth', -- Detect tabstop and shiftwidth automatically
-
-  -- NOTE: Plugins can also be added by using a table,
-  -- with the first argument being the link and the following
-  -- keys can be used to configure plugin behavior/loading/etc.
-  --
-  -- Use `opts = {}` to force a plugin to be loaded.
-  --
-
-  -- Here is a more advanced example where we pass configuration
-  -- options to `gitsigns.nvim`. This is equivalent to the following Lua:
-  --    require('gitsigns').setup({ ... })
-  --
-  -- See `:help gitsigns` to understand what the configuration keys do
-  { -- Adds git related signs to the gutter, as well as utilities for managing changes
+  -- Detect tabstop and shiftwidth automatically.
+  'tpope/vim-sleuth',
+  -- Git signs in the gutter.
+  {
     'lewis6991/gitsigns.nvim',
     opts = {
       signs = {
@@ -140,30 +108,13 @@ require('lazy').setup({
       },
     },
   },
-
-  -- NOTE: Plugins can also be configured to run Lua code when they are loaded.
-  --
-  -- This is often very useful to both group configuration, as well as handle
-  -- lazy loading plugins that don't need to be loaded immediately at startup.
-  --
-  -- For example, in the following configuration, we use:
-  --  event = 'VimEnter'
-  --
-  -- which loads which-key before all the UI elements are loaded. Events can be
-  -- normal autocommands events (`:help autocmd-events`).
-  --
-  -- Then, because we use the `opts` key (recommended), the configuration runs
-  -- after the plugin has been loaded as `require(MODULE).setup(opts)`.
-
-  { -- Useful plugin to show you pending keybinds.
+  -- Useful plugin to show you pending keybinds.
+  {
     'folke/which-key.nvim',
-    event = 'VimEnter', -- Sets the loading event to 'VimEnter'
+    event = 'VimEnter',
     opts = {
       icons = {
-        -- set icon mappings to true if you have a Nerd Font
         mappings = vim.g.have_nerd_font,
-        -- If you are using a Nerd Font: set icons.keys to an empty table which will use the
-        -- default which-key.nvim defined Nerd Font icons, otherwise define a string table
         keys = vim.g.have_nerd_font and {} or {
           Up = '<Up> ',
           Down = '<Down> ',
@@ -195,8 +146,7 @@ require('lazy').setup({
           F12 = '<F12>',
         },
       },
-
-      -- Document existing key chains
+      -- Document existing key chains.
       spec = {
         { '<leader>c', group = '[C]ode', mode = { 'n', 'x' } },
         { '<leader>d', group = '[D]ocument' },
@@ -208,70 +158,39 @@ require('lazy').setup({
       },
     },
   },
-
-  -- NOTE: Plugins can specify dependencies.
-  --
-  -- The dependencies are proper plugin specifications as well - anything
-  -- you do for a plugin at the top level, you can do for a dependency.
-  --
-  -- Use the `dependencies` key to specify the dependencies of a particular plugin
-
-  { -- Fuzzy Finder (files, lsp, etc)
+  -- Fuzzy Finder - files, lsp, etc.
+  {
     'nvim-telescope/telescope.nvim',
     event = 'VimEnter',
     branch = '0.1.x',
     dependencies = {
       'nvim-lua/plenary.nvim',
-      { -- If encountering errors, see telescope-fzf-native README for installation instructions
+      {
         'nvim-telescope/telescope-fzf-native.nvim',
-
-        -- `build` is used to run some command when the plugin is installed/updated.
-        -- This is only run then, not every time Neovim starts up.
         build = 'make',
-
-        -- `cond` is a condition used to determine whether this plugin should be
-        -- installed and loaded.
         cond = function()
           return vim.fn.executable 'make' == 1
         end,
       },
-      { 'nvim-telescope/telescope-ui-select.nvim' },
-
-      -- Useful for getting pretty icons, but requires a Nerd Font.
-      { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
+      {
+        'nvim-telescope/telescope-ui-select.nvim',
+      },
+      {
+        'nvim-tree/nvim-web-devicons',
+        enabled = vim.g.have_nerd_font,
+      },
     },
     config = function()
-      -- Telescope is a fuzzy finder that comes with a lot of different things that
-      -- it can fuzzy find! It's more than just a "file finder", it can search
-      -- many different aspects of Neovim, your workspace, LSP, and more!
-      --
-      -- The easiest way to use Telescope, is to start by doing something like:
-      --  :Telescope help_tags
-      --
-      -- After running this command, a window will open up and you're able to
-      -- type in the prompt window. You'll see a list of `help_tags` options and
-      -- a corresponding preview of the help.
-      --
+      -- :Telescope help_tags
       -- Two important keymaps to use while in Telescope are:
-      --  - Insert mode: <c-/>
-      --  - Normal mode: ?
-      --
+      -- - Insert mode: <c-/>
+      -- - Normal mode: ?
       -- This opens a window that shows you all of the keymaps for the current
       -- Telescope picker. This is really useful to discover what Telescope can
       -- do as well as how to actually do it!
-
-      -- [[ Configure Telescope ]]
-      -- See `:help telescope` and `:help telescope.setup()`
+      -- :help telescope
+      -- :help telescope.setup()
       require('telescope').setup {
-        -- You can put your default mappings / updates / etc. in here
-        --  All the info you're looking for is in `:help telescope.setup()`
-        --
-        -- defaults = {
-        --   mappings = {
-        --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
-        --   },
-        -- },
-        -- pickers = {}
         extensions = {
           ['ui-select'] = {
             require('telescope.themes').get_dropdown(),
