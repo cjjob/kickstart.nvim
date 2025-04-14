@@ -56,14 +56,6 @@ vim.keymap.set(
 -- experience.
 -- NOTE: This won't work in all terminal emulators/tmux/etc.
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
--- Move between windows with <leader> + (remapped) arrow keys.
-vim.keymap.set('n', '<leader><Left>', '<C-w>h', { desc = 'Move to left window' })
-vim.keymap.set('n', '<leader><Right>', '<C-w>l', { desc = 'Move to right window' })
-vim.keymap.set('n', '<leader><Up>', '<C-w>k', { desc = 'Move to above window' })
-vim.keymap.set('n', '<leader><Down>', '<C-w>j', { desc = 'Move to below window' })
--- Use jl for 'big moves' (since I use caps+ijkl for cursor movement).
-vim.keymap.set('n', 'j', '<C-u>', { desc = 'Move half page up' })
-vim.keymap.set('n', 'l', '<C-d>', { desc = 'Move half page down' })
 
 -- #### Basic Autocommands ####
 -- :help lua-guide-autocommands
@@ -588,7 +580,7 @@ require('lazy').setup({
           -- Accept ([y]es) the completion.
           --  This will auto-import if your LSP supports it.
           --  This will expand snippets if the LSP sent a snippet.
-          ['<C-y>'] = cmp.mapping.confirm { select = true },
+          ['<C-Enter>'] = cmp.mapping.confirm { select = true },
 
           -- If you prefer more traditional completion keymaps,
           -- you can uncomment the following lines
@@ -737,11 +729,8 @@ require('lazy').setup({
   -- require 'kickstart.plugins.neo-tree',
   -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
-  -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
-  --    This is the easiest way to modularize your config.
-  --
   --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
-  -- { import = 'custom.plugins' },
+  { import = 'custom.plugins' },
   --
   -- For additional information with loading, sourcing and examples see `:help lazy.nvim-🔌-plugin-spec`
   -- Or use telescope!
@@ -768,6 +757,8 @@ require('lazy').setup({
     },
   },
 })
+
+require 'custom.keymaps'
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
