@@ -19,6 +19,7 @@ return {
   end,
   keys = {
     { '<leader>ps', ':Copilot status<CR>', desc = 'Co[p]ilot Status' },
+    { '<leader>pr', ':Copilot setup<CR>', desc = 'Co[p]ilot (re)run Setup' },
     { '<leader>pp', ':Copilot panel<CR>', desc = 'Co[p]ilot Panel' },
     { '<leader>pd', ':Copilot disable<CR>', desc = 'Co[p]ilot Disable' },
     { '<leader>pe', ':Copilot enable<CR>', desc = 'Co[p]ilot Enable' },
